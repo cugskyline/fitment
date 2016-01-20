@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- status=debug 可以查看log4j2的装配过程 -->
+<configuration status="debug" monitorInterval="1800">
+    <!-- 定义常量 -->
+    <properties>
+        <property name="LOG_HOME">logs</property>
+        <!-- 日志备份目录 -->
+        <property name="BACKUP_HOME">{LOG_HOME}/backup</property>
+        <property name="LOG_DEV">dev</property>
+        <property name="LOG_TEST">test</property>
+        <property name="LOG_PRD">prd</property>
+        <property name="LOG_NAME">zuoan</property>
+    </properties>
+    <appenders>
+        <!-- 定义控制台输出 -->
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread][%file:%line] - %msg%n" />
+        </Console>
+        <!-- 程序员调试日志 -->
+        <RollingRandomAccessFile name="DevLog" fileName="${LOG_HOME}/${LOG_DEV}"
+                                 filePattern="${LOG_HOME}/${LOG_DEV}/${LOG_NAME}.%d{yyyy-MM-dd-HH}.log">
+            <PatternLayout pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread][%file:%line] - %msg%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+            </Policies>
+        </RollingRandomAccessFile>
+    </appenders>
+    <Loggers>
+        <Logger level="debug" additivity="true">
+            <AppenderRef ref="DevLog" />
+        </Logger>
+        <Root level="error">
+            <AppenderRef ref="Console" />
+        </Root>
+    </Loggers>
+</configuration>

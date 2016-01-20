@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zuoan.account.dao.UserDao">
+    <sql id="baseSql">
+        userId,userName,userPswd,registerTime,isdeleted,createdTime,updatedTime
+    </sql>
+
+    <insert id="insertUser" parameterType="com.zuoan.account.model.UserDO">
+        insert into zuoan_user(
+        userId,userName,userPswd,registerTime,isdeleted,createdTime,updatedTime
+        )
+        values(
+        #{userId},#{userName},#{userPswd},#{registerTime},0,sysdate(),sysdate()
+        )
+    </insert>
+
+    <update id="updateUser" parameterType="com.zuoan.account.model.UserDO">
+        update zuoan_user
+        <set>
+            <if test="userPswd != null and userPswd != ''">
+                userPswd = #{userPswd},
+            </if>
+            <if test="userName != null and userName != ''">
+                userName = #{userName},
+            </if>
+            updatedTime=sysdate()
+        </set>
+        where isdeleted=0
+        <choose>
+            <when test="userId != null and userId !=''">
+                and userId = #{userId}
+            </when>
+            <otherwise>
+                and 1 != 1
+            </otherwise>
+        </choose>
+    </update>
+
+    <update id="deleteUser" parameterType="com.zuoan.account.model.UserDO">
+        update zuoan_user set isdeleted=1,updatedTime=sysdate()
+        where isdeleted=0
+        <choose>
+            <when test="userId != null and userId !=''">
+                and userId = #{userId}
+            </when>
+            <otherwise>
+                and 1 != 1
+            </otherwise>
+        </choose>
+    </update>
+
+    <select id="getUser" parameterType="com.zuoan.account.model.UserDO" resultType="com.zuoan.account.model.UserDO">
+        select <include refid="baseSql"/>
+        from zuoan_user
+        where isdeleted=0
+        <choose>
+            <when test="userId != null and userId !=''">
+                and userId = #{userId}
+            </when>
+            <when test="userName != null and userName !=''">
+                and userName = #{userName}
+            </when>
+            <otherwise>
+                and 1 != 1
+            </otherwise>
+        </choose>
+        <if test="userPswd != null and userPswd != ''">
+            and userPswd = #{userPswd}
+        </if>
+    </select>
+
+    <select id="getUserByUserId" parameterType="string" resultType="com.zuoan.account.model.UserDO">
+        select  <include refid="baseSql"/>
+        from zuoan_user
+        where isdeleted=0 and userId = #{userId}
+    </select>
+
+    <select id="queryUsers" parameterType="com.zuoan.account.model.UserDO" resultType="com.zuoan.account.model.UserDO">
+        select  <include refid="baseSql"/>
+        from zuoan_user
+        where isdeleted=0
+        <if test="userId != null and userId !=''">
+            and userId = #{userId}
+        </if>
+        <if test="userName != null and userName !=''">
+            and userName = #{userName}
+        </if>
+        <if test="userPswd != null  and userPswd != ''">
+            and userPswd = #{userPswd}
+        </if>
+    </select>
+</mapper>
+
