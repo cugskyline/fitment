@@ -35,6 +35,12 @@
             <artifactId>log4j-web</artifactId>
             <version>${log4j2-version}</version>
         </dependency>
+        <!-- json -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson-version}</version>
+        </dependency>
         <!-- springframework -->
         <dependency>
             <groupId>org.springframework</groupId>

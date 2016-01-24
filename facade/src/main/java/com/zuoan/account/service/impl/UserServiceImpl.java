@@ -2,14 +2,17 @@ package com.zuoan.account.service.impl;
 
 import com.zuoan.account.dao.UserDao;
 import com.zuoan.account.model.UserDO;
+import com.zuoan.account.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by XUJY on 2016/1/19.
  */
-public class UserServiceImpl {
+@Service
+public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
     //注册用户

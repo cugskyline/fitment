@@ -9,11 +9,11 @@ import java.util.List;
  */
 public interface UserService {
     //注册用户
-    int addUser(UserDO user);
+    boolean addUser(UserDO user);
     //修改用户
-    int modifyUser(UserDO user);
+    boolean modifyUser(UserDO user);
     //删除用户
-    int removeUser(UserDO user);
+    boolean removeUser(UserDO user);
     //获取用户
     UserDO getUser(UserDO user);
     //通过userId获取用户
