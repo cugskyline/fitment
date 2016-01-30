@@ -36,9 +36,11 @@ public class UserResource {
     }
 
     @RequestMapping(value = "/info/{id}", method = RequestMethod.GET)
-    public UserDO getUser(@PathVariable("id") String id) {
+    public Object getUser(@PathVariable("id") String id) {
         logger.info("获取人员信息id=" + id);
         UserDO user = userService.getUserByUserId(id);
+        /*JSONObject jsonObject = new JSONObject();
+        jsonObject.put("msg", "获取人员信息成功");*/
         return user;
     }
 
