@@ -31,6 +31,9 @@
 
         <!-- c3p0 -->
         <c3p0-version>0.9.5.2</c3p0-version>
+
+        <!-- druid -->
+        <druid-version>1.0.16</druid-version>
     </properties>
 
     <!-- 设定团队持续集成发布包服务器 -->

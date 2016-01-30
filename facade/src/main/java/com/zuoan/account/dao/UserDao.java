@@ -2,13 +2,14 @@ package com.zuoan.account.dao;
 
 import com.zuoan.account.model.UserDO;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * Created by XUJY on 2016/1/19.
  */
-@Component
+@Repository
 public interface UserDao {
     //注册用户
     int insertUser(UserDO user);
