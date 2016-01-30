@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
     }
     //通过userId获取用户
     public UserDO getUserByUserId(String userId) {
-        return null;
+        return userDao.getUserByUserId(userId);
     }
     //分页查询用户
     public List<UserDO> queryUsers(UserDO user) {

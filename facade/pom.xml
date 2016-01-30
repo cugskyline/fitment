@@ -79,6 +79,12 @@
             <artifactId>druid</artifactId>
             <version>${druid-version}</version>
         </dependency>
+        <!-- jacjkjson -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
 
     </dependencies>
 </project>
