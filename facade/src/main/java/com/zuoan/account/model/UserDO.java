@@ -1,5 +1,7 @@
 package com.zuoan.account.model;
 
+import org.apache.logging.log4j.core.config.plugins.validation.constraints.Required;
+
 import java.util.Date;
 
 /**
@@ -22,7 +24,6 @@ public class UserDO extends BaseDO {
     public String getUserName() {
         return userName;
     }
-
     public void setUserName(String userName) {
         this.userName = userName;
     }

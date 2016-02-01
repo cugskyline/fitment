@@ -3,7 +3,7 @@ package com.zuoan.account.service.impl;
 import com.zuoan.account.dao.UserDao;
 import com.zuoan.account.model.UserDO;
 import com.zuoan.account.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,18 +24,27 @@ public class UserServiceImpl implements UserService {
     }
     //修改用户
     public boolean modifyUser(UserDO user) {
-        return true;
+        if (StringUtils.isBlank(user.getUserId())){
+            return false;
+        }
+        return userDao.updateUser(user)>0;
     }
     //删除用户
-    public boolean removeUser(UserDO user) {
-        return true;
+    public boolean removeUser(String userId) {
+        if (StringUtils.isBlank(userId)){
+            return false;
+        }
+        return userDao.deleteUser(userId)>0;
     }
     //获取用户
     public UserDO getUser(UserDO user) {
-        return null;
+       return userDao.getUser(user);
     }
     //通过userId获取用户
     public UserDO getUserByUserId(String userId) {
+        if (StringUtils.isBlank(userId)){
+            return null;
+        }
         return userDao.getUserByUserId(userId);
     }
     //分页查询用户

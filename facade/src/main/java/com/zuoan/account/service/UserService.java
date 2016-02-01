@@ -13,7 +13,7 @@ public interface UserService {
     //修改用户
     boolean modifyUser(UserDO user);
     //删除用户
-    boolean removeUser(UserDO user);
+    boolean removeUser(String userId);
     //获取用户
     UserDO getUser(UserDO user);
     //通过userId获取用户

@@ -16,7 +16,7 @@ public interface UserDao {
     //修改用户
     int updateUser(UserDO user);
     //删除用户
-    int deleteUser(UserDO user);
+    int deleteUser(String userId);
     //获取用户
     UserDO getUser(UserDO user);
     //通过userId获取用户

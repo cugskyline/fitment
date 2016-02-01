@@ -36,7 +36,7 @@
         </choose>
     </update>
 
-    <update id="deleteUser" parameterType="com.zuoan.account.model.UserDO">
+    <update id="deleteUser" parameterType="string">
         update zuoan_user set isdeleted=1,updatedTime=sysdate()
         where isdeleted=0
         <choose>

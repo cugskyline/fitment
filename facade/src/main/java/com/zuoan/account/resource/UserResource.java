@@ -3,13 +3,19 @@ package com.zuoan.account.resource;
 import com.alibaba.fastjson.JSONObject;
 import com.zuoan.account.model.UserDO;
 import com.zuoan.account.service.UserService;
+import org.apache.logging.log4j.core.config.plugins.validation.constraints.Required;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
+ * 用户管理
  * Created by XUJY on 2016/1/19.
  */
 @RestController
@@ -35,70 +41,94 @@ public class UserResource {
         return json.toString();
     }
 
+    /**
+     * 根据id获取用户信息
+     *
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "/info/{id}", method = RequestMethod.GET)
-    public Object getUser(@PathVariable("id") String id) {
+    public UserDO getUser(@PathVariable("id") String id) {
         logger.info("获取人员信息id=" + id);
         UserDO user = userService.getUserByUserId(id);
-        /*JSONObject jsonObject = new JSONObject();
-        jsonObject.put("msg", "获取人员信息成功");*/
         return user;
     }
 
-    /*@RequestMapping(value = "/person/{id:\\d+}", method = RequestMethod.DELETE)
-    public @ResponseBody
-    Object deletePerson(@PathVariable("id") int id) {
+    /**
+     * 删除用户
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/info/{id}", method = RequestMethod.DELETE)
+    public Object deleteUser(@PathVariable("id") String id) {
         logger.info("删除人员信息id=" + id);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("msg", "删除人员信息成功");
-        return jsonObject;
+        if (userService.getUserByUserId(id) == null) {
+            jsonObject.put("msg", "该用户不存在，删除失败");
+            return jsonObject;
+        }
+        if (userService.removeUser(id)) {
+            jsonObject.put("msg", "删除人员信息成功");
+            return jsonObject;
+        } else {
+            jsonObject.put("msg", "删除人员信息失败");
+            return jsonObject;
+        }
     }
 
-    @RequestMapping(value = "/person", method = RequestMethod.POST)
-    public @ResponseBody
-    Object addPerson(Person person) {
-        logger.info("注册人员信息成功id=" + person.getId());
+    /**
+     * 注册用户
+     *
+     * @param user
+     * @return
+     */
+    @RequestMapping(value = "/info", method = RequestMethod.POST)
+    public Object addUser(UserDO user) {
+        logger.info("注册人员信息成功id=" + user.getUserId());
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("msg", "注册人员信息成功");
-        return jsonObject;
+       if (userService.addUser(user)){
+           jsonObject.put("msg", "注册人员信息成功");
+           return jsonObject;
+       }else {
+           jsonObject.put("msg", "注册人员信息失败");
+           return jsonObject;
+       }
     }
 
-    @RequestMapping(value = "/person", method = RequestMethod.PUT)
-    public @ResponseBody
-    Object updatePerson(Person person) {
-        logger.info("更新人员信息id=" + person.getId());
+    /**
+     * 更新用户信息
+     * @param id
+     * @param userDO
+     * @return
+     */
+    @RequestMapping(value = "/info/{id}", method = RequestMethod.PUT)
+    public Object updateUser(@PathVariable("id") String id, UserDO userDO) {
+        logger.info("更新人员信息id=" + userDO.getUserId());
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("msg", "更新人员信息成功");
-        return jsonObject;
+        if (userService.modifyUser(userDO)){
+            jsonObject.put("msg", "更新人员信息成功");
+            return jsonObject;
+        }else {
+            jsonObject.put("msg", "更新人员信息失败");
+            return jsonObject;
+        }
     }
 
-    @RequestMapping(value = "/person", method = RequestMethod.PATCH)
-    public @ResponseBody
-    List<Person> listPerson(@RequestParam(value = "name", required = false, defaultValue = "") String name) {
+    /**
+     * 分页获取用户信息
+     *
+     * @param name
+     * @return
+     */
+    @RequestMapping(value = "/User", method = RequestMethod.PATCH)
+    public
+    @ResponseBody
+    List<UserDO> listUser(@RequestParam(value = "name", required = false, defaultValue = "") String name) {
 
         logger.info("查询人员name like " + name);
-        List<Person> lstPersons = new ArrayList<Person>();
+        List<UserDO> lstUsers = new ArrayList<UserDO>();
 
-        Person person = new Person();
-        person.setName("张三");
-        person.setSex("男");
-        person.setAge(25);
-        person.setId(101);
-        lstPersons.add(person);
-
-        Person person2 = new Person();
-        person2.setName("李四");
-        person2.setSex("女");
-        person2.setAge(23);
-        person2.setId(102);
-        lstPersons.add(person2);
-
-        Person person3 = new Person();
-        person3.setName("王五");
-        person3.setSex("男");
-        person3.setAge(27);
-        person3.setId(103);
-        lstPersons.add(person3);
-
-        return lstPersons;
-    }*/
+        return lstUsers;
+    }
 }
